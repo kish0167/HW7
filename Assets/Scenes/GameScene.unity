@@ -361,10 +361,10 @@ MonoBehaviour:
   - {fileID: 88144550}
   _questions:
   - {fileID: 11400000, guid: 0f973cab0b017cd448da94ed3e444b5c, type: 2}
-  - {fileID: 11400000, guid: 0f973cab0b017cd448da94ed3e444b5c, type: 2}
-  - {fileID: 11400000, guid: 0f973cab0b017cd448da94ed3e444b5c, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 5af8dfb8e04bfb141bcd1a4148d19589, type: 2}
+  - {fileID: 11400000, guid: 1aefa951e6b2e7647ab87870fe3f795a, type: 2}
+  - {fileID: 11400000, guid: 187d6efd8389777438b4b9f37e4f29ff, type: 2}
+  - {fileID: 11400000, guid: 82b346fa1f745a34eb6e68acbaa657a6, type: 2}
 --- !u!4 &429290697
 Transform:
   m_ObjectHideFlags: 0
@@ -374,7 +374,7 @@ Transform:
   m_GameObject: {fileID: 429290695}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1813.6996, y: 1265.7338, z: -21.363518}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
