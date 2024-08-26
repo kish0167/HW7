@@ -365,6 +365,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1aefa951e6b2e7647ab87870fe3f795a, type: 2}
   - {fileID: 11400000, guid: 187d6efd8389777438b4b9f37e4f29ff, type: 2}
   - {fileID: 11400000, guid: 82b346fa1f745a34eb6e68acbaa657a6, type: 2}
+  _answersMap: 
 --- !u!4 &429290697
 Transform:
   m_ObjectHideFlags: 0
@@ -2319,6 +2320,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1926491629}
   m_CullTransparentMesh: 1
+--- !u!1 &1936301665
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1936301667}
+  - component: {fileID: 1936301666}
+  m_Layer: 0
+  m_Name: ButtonColorHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1936301666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936301665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d281c7b9efe52fe48b32441ee7bba20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _quiz: {fileID: 429290696}
+  _buttons:
+  - {fileID: 2145893808}
+  - {fileID: 1725931564}
+  - {fileID: 2124727797}
+  - {fileID: 88144550}
+--- !u!4 &1936301667
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936301665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 551.70966, y: 906.87067, z: -13.19986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1964281965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2773,3 +2824,4 @@ SceneRoots:
   - {fileID: 729505334}
   - {fileID: 2062847150}
   - {fileID: 429290697}
+  - {fileID: 1936301667}

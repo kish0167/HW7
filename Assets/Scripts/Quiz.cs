@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,9 +23,19 @@ public class Quiz : MonoBehaviour
 
     [SerializeField] private List<int> _answersMap;
 
+    public List<int> AnswersMap => _answersMap;
+
     private int _currentQuestionNumber;
 
     private int _hitPoints;
+
+    #endregion
+
+    #region Events
+
+    public event Action OnCorrectAnswer;
+    public event Action OnNewQuewstion;
+    public event Action OnWrongAnswer;
 
     #endregion
 
@@ -47,6 +59,12 @@ public class Quiz : MonoBehaviour
 
     #region Private methods
 
+    private void CorrectAnswerHandling()
+    {
+        OnCorrectAnswer?.Invoke();
+        ExecuteRandomQuestion();
+    }
+
     private void ExecuteRandomQuestion()
     {
         if (_questions.Count == 0)
@@ -54,6 +72,8 @@ public class Quiz : MonoBehaviour
             ScenesLoader.LoadFinaleScene();
             return;
         }
+
+        OnNewQuewstion?.Invoke();
 
         Random rnd = new();
         int randomInt = rnd.Next(0, _questions.Count);
@@ -83,16 +103,6 @@ public class Quiz : MonoBehaviour
         SetButtons();
     }
 
-    private void OnAnswerCorrect()
-    {
-        ExecuteRandomQuestion();
-    }
-
-    private void OnAnswerWrong()
-    {
-        ScenesLoader.LoadFinaleScene();
-    }
-
     private void RandomizeQuestionsMap()
     {
         Random rnd = new();
@@ -113,13 +123,19 @@ public class Quiz : MonoBehaviour
             _buttons[i].onClick.RemoveAllListeners();
             if (_answersMap[i] == 0)
             {
-                _buttons[i].onClick.AddListener(OnAnswerCorrect);
+                _buttons[i].onClick.AddListener(CorrectAnswerHandling);
             }
             else
             {
-                _buttons[i].onClick.AddListener(OnAnswerWrong);
+                _buttons[i].onClick.AddListener(WrongAnswerHandling);
             }
         }
+    }
+
+    private void WrongAnswerHandling()
+    {
+        OnWrongAnswer?.Invoke();
+        ScenesLoader.LoadFinaleScene();
     }
 
     #endregion

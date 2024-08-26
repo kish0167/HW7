@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cfc660543365394797b056e8bd0ef9d, type: 3}
   m_Name: Question1Config 2
   m_EditorClassIdentifier: 
-  questionText: 1 parsec
+  questionText: 1 parsec is ...
   _questionSprite: {fileID: 0}
   _answers:
   - 3.28 l.y.
