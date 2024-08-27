@@ -39,6 +39,7 @@ public class ButtonColorHandler : MonoBehaviour
         {
             ColorBlock colors = button.colors;
             colors.normalColor = Color.white;
+            colors.selectedColor = Color.white;
             button.colors = colors;
         }
     }
@@ -47,6 +48,7 @@ public class ButtonColorHandler : MonoBehaviour
     {
         ColorBlock colors = button.colors;
         colors.normalColor = Color.green;
+        colors.selectedColor = Color.green;
         button.colors = colors;
     }
 
@@ -54,6 +56,7 @@ public class ButtonColorHandler : MonoBehaviour
     {
         ColorBlock colors = button.colors;
         colors.normalColor = Color.red;
+        colors.selectedColor = Color.red;
         button.colors = colors;
     }
 
