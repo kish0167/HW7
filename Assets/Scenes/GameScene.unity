@@ -454,7 +454,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0f973cab0b017cd448da94ed3e444b5c, type: 2}
   - {fileID: 11400000, guid: d20f466c555e9d04992d90d1873ba77b, type: 2}
   - {fileID: 11400000, guid: 5b6126f244a45a04bbcdc5c4fef8f7ed, type: 2}
-  _answersMap: 
   _delay: 1
   _startHP: 3
   _startHints: 3
@@ -2739,7 +2738,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ___, i'm gay.
+  m_text: ___, i'm ***.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3232f718be163440a3e4273df60527a, type: 2}
   m_sharedMaterial: {fileID: -1325430949072137748, guid: d3232f718be163440a3e4273df60527a, type: 2}
