@@ -10,6 +10,9 @@ public class Quiz : MonoBehaviour
 {
     #region Variables
 
+    [Header("Question Image")]
+    [SerializeField] private Image _image;
+
     [Header("Text fields")]
     [SerializeField] private TMP_Text _questionNumberLabel;
     [SerializeField] private TMP_Text _questionLabel;
@@ -24,15 +27,18 @@ public class Quiz : MonoBehaviour
     [Header("All questions")]
     [SerializeField] private List<QuestionConfig> _questions;
 
-    [SerializeField] private List<int> _answersMap;
-
+    [Header("prefs")]
     [SerializeField] private float _delay;
     [SerializeField] private int _startHP;
     [SerializeField] private int _startHints;
 
+    private List<int> _answersMap;
+
     private int _currentQuestionNumber;
 
     private Coroutine _quizCoroutine;
+
+    private StatisticsHandler _stats;
 
     #endregion
 
@@ -55,10 +61,13 @@ public class Quiz : MonoBehaviour
 
     private void Start()
     {
-        _hintButton.onClick.AddListener(HintUsageHandling);
-        StatisticsHandler.Reset(_startHP, _startHints);
+        _stats = FindObjectOfType<StatisticsHandler>();
+        _stats.ResetState(_startHP, _startHints);
+
         _currentQuestionNumber = 0;
         _answersMap = new List<int> { 0, 0, 0, 0 };
+
+        _hintButton.onClick.AddListener(HintUsageHandling);
 
         if (_buttons.Count != 4 || _answerLabels.Count != 4)
         {
@@ -66,9 +75,19 @@ public class Quiz : MonoBehaviour
             return;
         }
 
+        OnWrongAnswer += UpdateHPNumberLabel;
+        OnHintUsed += UpdateHintsNLabel;
+        OnNewQuestion += CheckEndOfGame;
+
         UpdateHintsNLabel();
         UpdateHPNumberLabel();
         ExecuteRandomQuestion();
+    }
+
+    private void OnDestroy()
+    {
+        OnWrongAnswer -= UpdateHPNumberLabel;
+        OnHintUsed -= UpdateHintsNLabel;
     }
 
     #endregion
@@ -78,7 +97,6 @@ public class Quiz : MonoBehaviour
     private void AnswerCorrectHandling()
     {
         OnCorrectAnswer?.Invoke();
-        StatisticsHandler.CorrectGuesses++;
         _quizCoroutine = StartCoroutine(AnswerCorrectSequence());
     }
 
@@ -91,27 +109,28 @@ public class Quiz : MonoBehaviour
     private void AnswerWrongHandling()
     {
         OnWrongAnswer?.Invoke();
-        StatisticsHandler.Hp--;
-        StatisticsHandler.WrongGuesses++;
-        UpdateHPNumberLabel();
         _quizCoroutine = StartCoroutine(AnswerWrongSequence());
     }
 
     private IEnumerator AnswerWrongSequence()
     {
         yield return new WaitForSeconds(_delay);
-        
-        if (StatisticsHandler.Hp <= 0)
-        {
-            ScenesLoader.LoadFinaleScene();
-        }
-
         OnNewQuestion?.Invoke();
     }
 
     private void CheckEndOfGame()
     {
-        if (_questions.Count == 0 || StatisticsHandler.Hp <= 0)
+        if (_questions.Count <= 0)
+        {
+            ScenesLoader.LoadFinaleScene();
+        }
+
+        CheckHp();
+    }
+
+    private void CheckHp()
+    {
+        if (_stats.Hp <= 0)
         {
             ScenesLoader.LoadFinaleScene();
         }
@@ -119,8 +138,6 @@ public class Quiz : MonoBehaviour
 
     private void ExecuteRandomQuestion()
     {
-        CheckEndOfGame();
-
         OnNewQuestion?.Invoke();
 
         Random rnd = new();
@@ -132,14 +149,12 @@ public class Quiz : MonoBehaviour
 
     private void HintUsageHandling()
     {
-        if (StatisticsHandler.Hints == 0)
+        if (_stats.Hints <= 0)
         {
             return;
         }
 
         OnHintUsed?.Invoke();
-        StatisticsHandler.Hints--;
-        UpdateHintsNLabel();
     }
 
     private void LoadQuestion(QuestionConfig questionConfig, int numberToShow)
@@ -159,6 +174,7 @@ public class Quiz : MonoBehaviour
 
         _questionLabel.text = questionConfig.QuestionText;
         _questionNumberLabel.text = $"#{numberToShow}";
+        _image.sprite = questionConfig.Sprite;
 
         SetButtons();
     }
@@ -194,12 +210,12 @@ public class Quiz : MonoBehaviour
 
     private void UpdateHintsNLabel()
     {
-        _hintsNumerLabel.text = $"{StatisticsHandler.Hints}";
+        _hintsNumerLabel.text = $"{_stats.Hints}";
     }
 
     private void UpdateHPNumberLabel()
     {
-        _HPNumberLabel.text = $"{StatisticsHandler.Hp}";
+        _HPNumberLabel.text = $"{_stats.Hp}";
     }
 
     #endregion

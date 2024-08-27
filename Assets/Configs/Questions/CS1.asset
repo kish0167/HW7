@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cfc660543365394797b056e8bd0ef9d, type: 3}
-  m_Name: Question1Config 3
+  m_Name: CS1
   m_EditorClassIdentifier: 
-  questionText: our galaxy?
-  _questionSprite: {fileID: 0}
+  questionText: bubblesort
+  _questionSprite: {fileID: 21300000, guid: 5b19fd68e1bdc6144be0e27222f940f2, type: 3}
   _answers:
-  - Milky Way
-  - Andromeda
-  - Cygnus
-  - NGC 49-25j
+  - O(n^2)
+  - O(n*log(n))
+  - O(n)
+  - O(n!)

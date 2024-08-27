@@ -7,7 +7,7 @@ public class StartMenu : MonoBehaviour
 
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _exitButton;
-    private ScenesLoader2Variant _scenesLoader2Variant;
+    private StatisticsHandler _stats;
 
     #endregion
 
@@ -15,13 +15,10 @@ public class StartMenu : MonoBehaviour
 
     private void Start()
     {
-        /*_scenesLoader = FindObjectOfType<ScenesLoader>();
-        _startButton.onClick.AddListener(_scenesLoader.LoadGameScene);
-        _exitButton.onClick.AddListener(_scenesLoader.ExitGame);*/
-        
+        _stats = FindObjectOfType<StatisticsHandler>();
+
         _startButton.onClick.AddListener(ScenesLoader.LoadGameScene);
         _exitButton.onClick.AddListener(ScenesLoader.ExitGame);
-        
     }
 
     #endregion

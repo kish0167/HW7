@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EndgameMenu : MonoBehaviour
@@ -14,13 +13,17 @@ public class EndgameMenu : MonoBehaviour
     [SerializeField] private Sprite _winSprite;
     [SerializeField] private TMP_Text _statsText;
 
+    private StatisticsHandler _stats;
+
     #endregion
 
     #region Unity lifecycle
 
     private void Start()
     {
-        if (StatisticsHandler.Hp <= 0)
+        _stats = FindObjectOfType<StatisticsHandler>();
+
+        if (_stats.Hp <= 0)
         {
             _resultImage.sprite = _loseSprite;
         }
@@ -28,17 +31,22 @@ public class EndgameMenu : MonoBehaviour
         {
             _resultImage.sprite = _winSprite;
         }
+
         _yesButton.onClick.AddListener(ScenesLoader.LoadStartScene);
         _noButton.onClick.AddListener(ScenesLoader.ExitGame);
-        
+
         UpdateStatsText();
     }
 
+    #endregion
+
+    #region Private methods
+
     private void UpdateStatsText()
     {
-        _statsText.text = $"correct answers: {StatisticsHandler.CorrectGuesses}\n" +
-                          $"wrong answers: {StatisticsHandler.WrongGuesses}";
+        _statsText.text = $"correct answers: {_stats.CorrectGuesses}\n" +
+                          $"wrong answers: {_stats.WrongGuesses}";
     }
-    
+
     #endregion
 }

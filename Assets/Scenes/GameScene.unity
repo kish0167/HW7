@@ -377,9 +377,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 5b19fd68e1bdc6144be0e27222f940f2, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -424,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f16be691d2bfb34dbcccab338013018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _image: {fileID: 335633154}
   _questionNumberLabel: {fileID: 932823910}
   _questionLabel: {fileID: 1926491631}
   _answerLabels:
@@ -440,11 +441,19 @@ MonoBehaviour:
   - {fileID: 88144550}
   _hintButton: {fileID: 967170511}
   _questions:
-  - {fileID: 11400000, guid: 0f973cab0b017cd448da94ed3e444b5c, type: 2}
   - {fileID: 11400000, guid: 5af8dfb8e04bfb141bcd1a4148d19589, type: 2}
   - {fileID: 11400000, guid: 1aefa951e6b2e7647ab87870fe3f795a, type: 2}
   - {fileID: 11400000, guid: 187d6efd8389777438b4b9f37e4f29ff, type: 2}
   - {fileID: 11400000, guid: 82b346fa1f745a34eb6e68acbaa657a6, type: 2}
+  - {fileID: 11400000, guid: 1afef42520b8be04abc9e5ca1a4e08ac, type: 2}
+  - {fileID: 11400000, guid: e56bc49b7a6837446b7479760ec522f3, type: 2}
+  - {fileID: 11400000, guid: 8348a5853e242594da3c48c63a94a5e1, type: 2}
+  - {fileID: 11400000, guid: 0f6417df1e48a28499c900c565fece9a, type: 2}
+  - {fileID: 11400000, guid: 73420291bce587943ac280ec857923c0, type: 2}
+  - {fileID: 11400000, guid: 6212734132c58244d94fba1a2e7d6d5f, type: 2}
+  - {fileID: 11400000, guid: 0f973cab0b017cd448da94ed3e444b5c, type: 2}
+  - {fileID: 11400000, guid: d20f466c555e9d04992d90d1873ba77b, type: 2}
+  - {fileID: 11400000, guid: 5b6126f244a45a04bbcdc5c4fef8f7ed, type: 2}
   _answersMap: 
   _delay: 1
   _startHP: 3
