@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,28 +14,40 @@ public class Quiz : MonoBehaviour
     [SerializeField] private TMP_Text _questionNumberLabel;
     [SerializeField] private TMP_Text _questionLabel;
     [SerializeField] private List<TMP_Text> _answerLabels;
+    [SerializeField] private TMP_Text _hintsNumerLabel;
+    [SerializeField] private TMP_Text _HPNumberLabel;
 
     [Header("Buttons")]
     [SerializeField] private List<Button> _buttons;
+    [SerializeField] private Button _hintButton;
 
     [Header("All questions")]
     [SerializeField] private List<QuestionConfig> _questions;
 
     [SerializeField] private List<int> _answersMap;
 
-    public List<int> AnswersMap => _answersMap;
+    [SerializeField] private float _delay;
+    [SerializeField] private int _startHP;
+    [SerializeField] private int _startHints;
 
     private int _currentQuestionNumber;
 
-    private int _hitPoints;
+    private Coroutine _quizCoroutine;
 
     #endregion
 
     #region Events
 
     public event Action OnCorrectAnswer;
-    public event Action OnNewQuewstion;
+    public event Action OnHintUsed;
+    public event Action OnNewQuestion;
     public event Action OnWrongAnswer;
+
+    #endregion
+
+    #region Properties
+
+    public List<int> AnswersMap => _answersMap;
 
     #endregion
 
@@ -43,15 +55,19 @@ public class Quiz : MonoBehaviour
 
     private void Start()
     {
+        _hintButton.onClick.AddListener(HintUsageHandling);
+        StatisticsHandler.Reset(_startHP, _startHints);
+        _currentQuestionNumber = 0;
         _answersMap = new List<int> { 0, 0, 0, 0 };
+
         if (_buttons.Count != 4 || _answerLabels.Count != 4)
         {
             Debug.LogError("something wrong with Quiz instance");
             return;
         }
 
-        _hitPoints = 3;
-        _currentQuestionNumber = 0;
+        UpdateHintsNLabel();
+        UpdateHPNumberLabel();
         ExecuteRandomQuestion();
     }
 
@@ -59,21 +75,53 @@ public class Quiz : MonoBehaviour
 
     #region Private methods
 
-    private void CorrectAnswerHandling()
+    private void AnswerCorrectHandling()
     {
         OnCorrectAnswer?.Invoke();
+        StatisticsHandler.CorrectGuesses++;
+        _quizCoroutine = StartCoroutine(AnswerCorrectSequence());
+    }
+
+    private IEnumerator AnswerCorrectSequence()
+    {
+        yield return new WaitForSeconds(_delay);
         ExecuteRandomQuestion();
+    }
+
+    private void AnswerWrongHandling()
+    {
+        OnWrongAnswer?.Invoke();
+        StatisticsHandler.Hp--;
+        StatisticsHandler.WrongGuesses++;
+        UpdateHPNumberLabel();
+        _quizCoroutine = StartCoroutine(AnswerWrongSequence());
+    }
+
+    private IEnumerator AnswerWrongSequence()
+    {
+        yield return new WaitForSeconds(_delay);
+        
+        if (StatisticsHandler.Hp <= 0)
+        {
+            ScenesLoader.LoadFinaleScene();
+        }
+
+        OnNewQuestion?.Invoke();
+    }
+
+    private void CheckEndOfGame()
+    {
+        if (_questions.Count == 0 || StatisticsHandler.Hp <= 0)
+        {
+            ScenesLoader.LoadFinaleScene();
+        }
     }
 
     private void ExecuteRandomQuestion()
     {
-        if (_questions.Count == 0)
-        {
-            ScenesLoader.LoadFinaleScene();
-            return;
-        }
+        CheckEndOfGame();
 
-        OnNewQuewstion?.Invoke();
+        OnNewQuestion?.Invoke();
 
         Random rnd = new();
         int randomInt = rnd.Next(0, _questions.Count);
@@ -82,11 +130,23 @@ public class Quiz : MonoBehaviour
         _questions.RemoveAt(randomInt);
     }
 
+    private void HintUsageHandling()
+    {
+        if (StatisticsHandler.Hints == 0)
+        {
+            return;
+        }
+
+        OnHintUsed?.Invoke();
+        StatisticsHandler.Hints--;
+        UpdateHintsNLabel();
+    }
+
     private void LoadQuestion(QuestionConfig questionConfig, int numberToShow)
     {
         if (questionConfig.Answers.Count != 4)
         {
-            Debug.LogError("something wrong with current question config");
+            //Debug.LogError("something wrong with current question config");
             return;
         }
 
@@ -123,19 +183,23 @@ public class Quiz : MonoBehaviour
             _buttons[i].onClick.RemoveAllListeners();
             if (_answersMap[i] == 0)
             {
-                _buttons[i].onClick.AddListener(CorrectAnswerHandling);
+                _buttons[i].onClick.AddListener(AnswerCorrectHandling);
             }
             else
             {
-                _buttons[i].onClick.AddListener(WrongAnswerHandling);
+                _buttons[i].onClick.AddListener(AnswerWrongHandling);
             }
         }
     }
 
-    private void WrongAnswerHandling()
+    private void UpdateHintsNLabel()
     {
-        OnWrongAnswer?.Invoke();
-        ScenesLoader.LoadFinaleScene();
+        _hintsNumerLabel.text = $"{StatisticsHandler.Hints}";
+    }
+
+    private void UpdateHPNumberLabel()
+    {
+        _HPNumberLabel.text = $"{StatisticsHandler.Hp}";
     }
 
     #endregion

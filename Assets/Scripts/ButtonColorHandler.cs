@@ -17,12 +17,31 @@ public class ButtonColorHandler : MonoBehaviour
     {
         _quiz.OnCorrectAnswer += PaintButtons;
         _quiz.OnWrongAnswer += PaintButtons;
-        //_quiz.OnNewQuewstion += PaintButtons;
+        _quiz.OnNewQuestion += DePaintButtons;
+        _quiz.OnHintUsed += Paint2ButtonsRed;
+    }
+
+    private void OnDestroy()
+    {
+        _quiz.OnCorrectAnswer -= PaintButtons;
+        _quiz.OnWrongAnswer -= PaintButtons;
+        _quiz.OnNewQuestion -= DePaintButtons;
+        _quiz.OnHintUsed -= Paint2ButtonsRed;
     }
 
     #endregion
 
     #region Private methods
+
+    private void DePaintButtons()
+    {
+        foreach (Button button in _buttons)
+        {
+            ColorBlock colors = button.colors;
+            colors.normalColor = Color.white;
+            button.colors = colors;
+        }
+    }
 
     private void MakeButtonGreen(Button button)
     {
@@ -36,6 +55,17 @@ public class ButtonColorHandler : MonoBehaviour
         ColorBlock colors = button.colors;
         colors.normalColor = Color.red;
         button.colors = colors;
+    }
+
+    private void Paint2ButtonsRed()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (_quiz.AnswersMap[i] == 2 || _quiz.AnswersMap[i] == 3)
+            {
+                MakeButtonRed(_buttons[i]);
+            }
+        }
     }
 
     private void PaintButtons()
